@@ -10,7 +10,9 @@
     "test": "jest",
     "test:contracts": "hardhat test",
     "deploy:contracts": "hardhat run contracts/scripts/deploy.ts --network baseSepolia",
-    "hardhat": "hardhat"
+    "test:mint": "ts-node --project tsconfig.node.json tests/test-mint.ts",
+    "test:marketplace": "ts-node --project tsconfig.node.json tests/test-marketplace.ts",
+    "check:balance": "ts-node --project tsconfig.node.json tests/check-balance.ts"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.3.0",
