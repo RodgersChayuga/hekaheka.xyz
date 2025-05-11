@@ -19,5 +19,26 @@
       }
     ],
     "deployedAt": "2025-05-10T21:21:36.738Z"
+  },
+  {
+    "network": {
+      "name": "baseSepolia",
+      "chainId": "84532"
+    },
+    "contracts": [
+      {
+        "name": "ComicNFT",
+        "address": "0xd2367F315623146459d64a27B1EA9f04bC91Bebf",
+        "transactionHash": "0x40a4db97db421829ff6cf67b7ad0e501f9709db182865fac228ed4857519d279",
+        "deployedAt": "2025-05-11T12:03:25.579Z"
+      },
+      {
+        "name": "ComicMarketplace",
+        "address": "0x48C3EcF3aB7F0D7aCCDD2c4408B4a4691F2E61AE",
+        "transactionHash": "0xa499b87649371827fb9185a1242736cd91f621c8433f6ae744b96c9526e2e451",
+        "deployedAt": "2025-05-11T12:03:29.808Z"
+      }
+    ],
+    "deployedAt": "2025-05-11T12:03:20.898Z"
   }
 ]
