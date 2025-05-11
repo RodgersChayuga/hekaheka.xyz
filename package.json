@@ -12,9 +12,12 @@
     "deploy:contracts": "hardhat run contracts/scripts/deploy.ts --network baseSepolia",
     "test:mint": "ts-node --project tsconfig.node.json tests/test-mint.ts",
     "test:marketplace": "ts-node --project tsconfig.node.json tests/test-marketplace.ts",
-    "check:balance": "ts-node --project tsconfig.node.json tests/check-balance.ts"
+    "test:api": "mocha --require ts-node/register tests/api/*.test.ts --exit",
+    "check:balance": "ts-node --project tsconfig.node.json tests/check-balance.ts",
+    "test:ipfs": "ts-node --project tsconfig.node.json tests/test-ipfs.ts"
   },
   "dependencies": {
+    "@coinbase/agentkit": "^0.7.1",
     "@openzeppelin/contracts": "^5.3.0",
     "@pinata/sdk": "^2.1.0",
     "@radix-ui/react-slot": "^1.2.2",
@@ -47,6 +50,7 @@
     "@types/node": "^20.17.46",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/supertest": "^6.0.3",
     "chai": "^4.2.0",
     "dotenv": "^16.5.0",
     "eslint": "^9",
@@ -55,6 +59,7 @@
     "hardhat-gas-reporter": "^1.0.8",
     "jest": "^29.7.0",
     "solidity-coverage": "^0.8.0",
+    "supertest": "^7.1.0",
     "tailwindcss": "^4",
     "ts-jest": "^29.3.2",
     "ts-node": "^10.9.2",
