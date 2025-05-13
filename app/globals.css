@@ -1,3 +1,7 @@
+/* Place at the very top of global.css, before other rules */
+@import url('https://fonts.googleapis.com/css2?family=Comic+Neue:wght@400;700&display=swap');
+
+/* Existing global.css content (unchanged) */
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -116,7 +120,149 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Permanent Marker', cursive;
+}
+
+@layer utilities {
+  .bg-comic-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .font-comic {
+    font-family: 'Permanent Marker', cursive;
+  }
+}
+
+@keyframes comic-fade {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-comic-fade {
+  animation: comic-fade 0.6s ease-out;
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0) rotate(-3deg);
+  }
+
+  50% {
+    transform: translateY(-25px) rotate(3deg);
+  }
+}
+
+@keyframes pulse-0 {
+
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes pulse-1 {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 0.6;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes pulse-2 {
+
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.7;
+    transform: scale(1.3);
+  }
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-pulse-0 {
+  animation: pulse-0 4s ease-in-out infinite;
+}
+
+.animate-pulse-1 {
+  animation: pulse-1 5s ease-in-out infinite;
+}
+
+.animate-pulse-2 {
+  animation: pulse-2 6s ease-in-out infinite;
+}
+
+
+@layer utilities {
+  .bg-comic-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%239C92AC' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .font-comic {
+    font-family: 'Comic Neue', 'Comic Sans MS', cursive;
+  }
+
+  .bg-halftone-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FF8C00' fill-opacity='0.8' fill-rule='evenodd'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='8' cy='2' r='1'/%3E%3Ccircle cx='2' cy='8' r='1'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .bg-halftone-pattern-left {
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FF8C00' fill-opacity='0.8' fill-rule='evenodd'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='8' cy='2' r='1'/%3E%3Ccircle cx='2' cy='8' r='1'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .bg-halftone-pattern-right {
+    background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23FF8C00' fill-opacity='0.8' fill-rule='evenodd'%3E%3Ccircle cx='2' cy='2' r='1'/%3E%3Ccircle cx='8' cy='2' r='1'/%3E%3Ccircle cx='2' cy='8' r='1'/%3E%3Ccircle cx='8' cy='8' r='1'/%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .clip-path-left {
+    clip-path: polygon(0 0, 100% 0, 0 100%);
+  }
+
+  .clip-path-right {
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+  }
+}
+
+.absolute-button-shadow {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: calc(100% - 8px);
+  height: calc(100% - 8px);
 }
