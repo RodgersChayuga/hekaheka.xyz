@@ -4,11 +4,11 @@ import Background from "./Background";
 
 
 export const metadata: Metadata = {
-    title: "Mint",
-    description: "Mint your comic",
+    title: "Marketplace",
+    description: "View the marketplace",
 };
 
-export default function MintLayout({
+export default function MarketplaceLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
