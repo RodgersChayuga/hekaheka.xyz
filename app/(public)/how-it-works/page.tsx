@@ -1,7 +1,7 @@
 "use client";
 
 import CustomButton from "@/components/CustomButton";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -13,6 +13,11 @@ function HowItWorks({ }: Props) {
   const [story, setStory] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [characters, setCharacters] = useState<string[]>([]);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const handleBack = () => {
     router.push("/");
@@ -49,8 +54,10 @@ function HowItWorks({ }: Props) {
         throw new Error("Story processing failed");
       }
 
-      localStorage.setItem("aiStory", story);
-      localStorage.setItem("characters", JSON.stringify(characters));
+      if (typeof window !== 'undefined') {
+        localStorage.setItem("aiStory", story);
+        localStorage.setItem("characters", JSON.stringify(characters));
+      }
       router.push("/image-upload");
     } catch (error: any) {
       console.error("Error:", error);
@@ -73,17 +80,22 @@ function HowItWorks({ }: Props) {
     setStory(e.target.value);
   };
 
+  if (!isClient) {
+    return null; // or a loading state
+  }
+
   return (
     <div className="flex gap-8 relative w-full min-h-screen">
       {/* Description Section */}
-      <div className="relative flex-1 h-full pt-26">
-        <div className="w-full">
+      <div className="relative flex-1 h-screen">
+        <div className="w-full h-full flex items-center justify-center">
           <Image
             src="/images/comic-page-2.png"
             alt="Comic panel"
             width={400}
             height={300}
             className="object-cover w-full animate-float"
+            style={{ animationDelay: "0s" }}
           />
         </div>
       </div>

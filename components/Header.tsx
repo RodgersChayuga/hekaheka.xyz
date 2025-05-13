@@ -64,7 +64,7 @@ const Header = () => {
                             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
                                 <Facebook />
                             </a>
-                            <a href="https://wa.me/25472003341" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
+                            <a href="https://wa.me/254720033411" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
                                 <MessageCircle />
                             </a>
                         </div>

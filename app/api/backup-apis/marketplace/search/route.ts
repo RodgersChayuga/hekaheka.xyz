@@ -1,3 +1,6 @@
+
+// app/api/marketplace/search/route.ts
+
 import { NextResponse } from 'next/server';
 import { getListingDetails, checkIfTokenIsListed } from '@/lib/blockchain/marketplace';
 

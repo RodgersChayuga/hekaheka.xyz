@@ -1,3 +1,6 @@
+
+// app/api/comics/mint/route.ts
+
 import { NextResponse } from 'next/server';
 import { mintNFT } from '@/lib/blockchain/mint';
 import { pinJSONToIPFS } from '@/lib/ipfs/pinata';

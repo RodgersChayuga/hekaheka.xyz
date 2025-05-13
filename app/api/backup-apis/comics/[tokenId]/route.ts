@@ -1,3 +1,6 @@
+
+// app/api/comics/[tokenId]/route.ts
+
 import { NextResponse } from 'next/server';
 import { getComicNFTContract } from '@/lib/blockchain/contracts';
 import { checkIfTokenIsListed } from '@/lib/blockchain/marketplace';
