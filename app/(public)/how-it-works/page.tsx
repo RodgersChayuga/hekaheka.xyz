@@ -27,6 +27,10 @@ function HowItWorks({ }: Props) {
       toast.error("Please enter at least one character name.");
       return;
     }
+    if (characters.length > 4) {
+      toast.error("You can only enter up to 4 characters.");
+      return;
+    }
 
     try {
       const response = await fetch("/api/comics/generate", {
@@ -36,15 +40,21 @@ function HowItWorks({ }: Props) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to process story");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to process story");
+      }
+
+      const { success } = await response.json();
+      if (!success) {
+        throw new Error("Story processing failed");
       }
 
       localStorage.setItem("aiStory", story);
       localStorage.setItem("characters", JSON.stringify(characters));
       router.push("/image-upload");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error:", error);
-      toast.error("Failed to process story. Please try again.");
+      toast.error(error.message || "Failed to process story. Please try again.");
     }
   };
 
@@ -66,8 +76,8 @@ function HowItWorks({ }: Props) {
   return (
     <div className="flex gap-8 relative w-full min-h-screen">
       {/* Description Section */}
-      <div className="relative flex-1 h-screen ">
-        <div className="w-full h-full flex items-center justify-center">
+      <div className="relative flex-1 h-full pt-26">
+        <div className="w-full">
           <Image
             src="/images/comic-page-2.png"
             alt="Comic panel"
@@ -100,7 +110,7 @@ function HowItWorks({ }: Props) {
           type="text"
           value={inputValue}
           onChange={handleChange}
-          placeholder="Enter characters' names separated by commas"
+          placeholder="Enter characters' names separated by commas (up to 4)"
           className="p-2 w-full bg-white text-black rounded-none mb-4 border-4 border-black"
           aria-label="Character names input"
         />

@@ -22,16 +22,33 @@ const ImageUpload = (props: Props) => {
     };
 
     useEffect(() => {
-        const storedCharacters = localStorage.getItem("characters");
-        const storedStory = localStorage.getItem("aiStory");
+        try {
+            const storedCharacters = localStorage.getItem("characters");
+            const storedStory = localStorage.getItem("aiStory");
 
-        if (storedCharacters) {
-            setCharacters(JSON.parse(storedCharacters));
+            if (storedCharacters) {
+                const parsedCharacters = JSON.parse(storedCharacters);
+                if (Array.isArray(parsedCharacters) && parsedCharacters.every((char) => typeof char === "string")) {
+                    setCharacters(parsedCharacters);
+                } else {
+                    throw new Error("Invalid characters data");
+                }
+            } else {
+                toast.error("No characters found. Please go back and add characters.");
+                router.push("/how-it-works");
+            }
+
+            if (storedStory) {
+                setStory(storedStory);
+            }
+        } catch (error) {
+            console.error("Error parsing localStorage data:", error);
+            toast.error("Invalid data format. Please start over.");
+            localStorage.removeItem("characters");
+            localStorage.removeItem("aiStory");
+            router.push("/how-it-works");
         }
-        if (storedStory) {
-            setStory(storedStory);
-        }
-    }, []);
+    }, [router]);
 
     const handleBack = () => {
         router.push("/how-it-works");
@@ -51,6 +68,8 @@ const ImageUpload = (props: Props) => {
 
         try {
             const formData = new FormData();
+            formData.append("story", story);
+            formData.append("characters", JSON.stringify(characters));
             characters.forEach((character) => {
                 characterFiles[character]?.forEach((file, index) => {
                     formData.append(`${character}-${index}`, file);
@@ -63,13 +82,20 @@ const ImageUpload = (props: Props) => {
             });
 
             if (!response.ok) {
-                throw new Error("Failed to upload images");
+                const errorData = await response.json();
+                throw new Error(errorData.message || "Failed to upload images");
             }
 
+            const { success, ipfsHashes } = await response.json();
+            if (!success) {
+                throw new Error("Image upload failed");
+            }
+
+            localStorage.setItem("ipfsHashes", JSON.stringify(ipfsHashes));
             router.push("/mint");
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error:", error);
-            toast.error("Failed to upload images. Please try again.");
+            toast.error(error.message || "Failed to upload images. Please try again.");
         }
     };
 

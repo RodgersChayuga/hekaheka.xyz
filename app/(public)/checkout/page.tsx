@@ -2,11 +2,13 @@
 
 import { PricingPlan } from "./PricingPlan";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 type Props = {};
 
 function CheckoutPage({ }: Props) {
+    const router = useRouter();
     const [selectedBasicOption, setSelectedBasicOption] = useState("stripe");
     const [selectedAdvancedOption, setSelectedAdvancedOption] = useState("stripe");
 
@@ -24,8 +26,11 @@ function CheckoutPage({ }: Props) {
 
             const { success, tokenId } = await response.json();
             if (success) {
+                localStorage.setItem("isPurchased", "true");
+                localStorage.setItem("purchasedPlan", plan);
+                localStorage.setItem("tokenId", tokenId);
                 toast.success(`Successfully purchased ${plan} plan!`);
-                // Optionally redirect to my-comics with tokenId
+                router.push("/marketplace");
             } else {
                 throw new Error("Payment processing error");
             }
@@ -36,11 +41,11 @@ function CheckoutPage({ }: Props) {
     };
 
     return (
-        <div className="flex gap-8 justify-center p-8  ">
+        <div className="flex gap-8 justify-center p-8">
             <PricingPlan
                 title="Single Page"
                 subtitle="For Student Use"
-                coverImage="/images/image-placeholder.jpg" // TODO: Add actual image from the storybook
+                coverImage="/images/image-placeholder.jpg"
                 options={[
                     {
                         id: "stripe",
@@ -66,14 +71,14 @@ function CheckoutPage({ }: Props) {
             <PricingPlan
                 title="Full Storybook"
                 subtitle="For Professional Use"
-                coverImage="/images/image-placeholder.jpg" // TODO: Add actual image from the storybook
+                coverImage="/images/image-placeholder.jpg"
                 options={[
                     {
                         id: "stripe",
                         name: "Use Stripe",
-                        price: "$300",
+                        price: "$300/month",
                         description: "",
-                        period: "One-time payment",
+                        period: "Monthly subscription",
                     },
                     {
                         id: "crypto",
