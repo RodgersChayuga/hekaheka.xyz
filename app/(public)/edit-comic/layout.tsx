@@ -1,22 +1,18 @@
 import type { Metadata } from "next";
 import Background from "./Background";
 
-
-
 export const metadata: Metadata = {
-    title: "Marketplace",
-    description: "View the marketplace",
+    title: "Edit Comic",
+    description: "Edit your comic",
 };
 
-export default function MarketplaceLayout({
+export default function EditComicLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
-        <div
-            className=""
-        >
+        <div className="min-h-screen flex flex-col">
             <Background>
                 {children}
             </Background>
