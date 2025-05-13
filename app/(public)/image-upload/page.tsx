@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import CustomButton from "@/components/CustomButton";
-import { useRouter } from "next/navigation"
-import PhotoUpload from "./Upload"; // Import the PhotoUpload component
+import { useRouter } from "next/navigation";
+import PhotoUpload from "./Upload";
+import { toast } from "sonner";
 
-type Props = {}
+type Props = {};
 
 const ImageUpload = (props: Props) => {
     const router = useRouter();
@@ -14,21 +15,19 @@ const ImageUpload = (props: Props) => {
     const [characterFiles, setCharacterFiles] = useState<Record<string, File[]>>({});
 
     const updateCharacterFiles = (character: string, files: File[]) => {
-        setCharacterFiles(prev => ({
+        setCharacterFiles((prev) => ({
             ...prev,
-            [character]: files
+            [character]: files,
         }));
     };
 
     useEffect(() => {
-        // Get characters from localStorage when component mounts
         const storedCharacters = localStorage.getItem("characters");
         const storedStory = localStorage.getItem("aiStory");
 
         if (storedCharacters) {
             setCharacters(JSON.parse(storedCharacters));
         }
-
         if (storedStory) {
             setStory(storedStory);
         }
@@ -36,16 +35,46 @@ const ImageUpload = (props: Props) => {
 
     const handleBack = () => {
         router.push("/how-it-works");
-    }
+    };
 
-    const handleNext = () => {
-        // Here you would normally process the uploaded photos
-        router.push("/mint");
-    }
+    const handleNext = async () => {
+        if (characters.length === 0) {
+            toast.error("No characters found. Please add characters.");
+            return;
+        }
+
+        const hasFiles = characters.every((character) => characterFiles[character]?.length > 0);
+        if (!hasFiles) {
+            toast.error("Please upload at least one image for each character.");
+            return;
+        }
+
+        try {
+            const formData = new FormData();
+            characters.forEach((character) => {
+                characterFiles[character]?.forEach((file, index) => {
+                    formData.append(`${character}-${index}`, file);
+                });
+            });
+
+            const response = await fetch("/api/comics/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to upload images");
+            }
+
+            router.push("/mint");
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error("Failed to upload images. Please try again.");
+        }
+    };
 
     return (
-        <div className="flex gap-8 relative">
-            {/* Hero Section */}
+        <div className="flex gap-8 relative min-h-screen p-4">
             <div className="text-center flex flex-col items-center justify-center flex-1 relative">
                 <h2 className="text-3xl font-bold mb-6">Upload Character Photos</h2>
 
@@ -79,25 +108,16 @@ const ImageUpload = (props: Props) => {
                         </div>
 
                         <div className="flex justify-around gap-8">
-                            <div>
-                                <CustomButton onClick={handleBack}>BACK</CustomButton>
-                            </div>
-                            <div>
-                                <CustomButton
-                                    onClick={handleNext}
-                                    disabled={characters.length === 0}
-                                >
-                                    NEXT
-                                </CustomButton>
-                            </div>
+                            <CustomButton onClick={handleBack}>BACK</CustomButton>
+                            <CustomButton onClick={handleNext} disabled={characters.length === 0}>
+                                NEXT
+                            </CustomButton>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-import { toast } from "sonner";
-
-export default ImageUpload
+export default ImageUpload;

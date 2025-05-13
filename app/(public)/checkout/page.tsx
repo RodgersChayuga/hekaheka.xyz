@@ -1,86 +1,95 @@
-
-"use client"
+"use client";
 
 import { PricingPlan } from "./PricingPlan";
-import React, { useState } from 'react'
+import React, { useState } from "react";
+import { toast } from "sonner";
 
-type Props = {}
+type Props = {};
 
-function page({ }: Props) {
+function CheckoutPage({ }: Props) {
+    const [selectedBasicOption, setSelectedBasicOption] = useState("stripe");
+    const [selectedAdvancedOption, setSelectedAdvancedOption] = useState("stripe");
 
-    // State management for basic plan
-    const [selectedBasicOption, setSelectedBasicOption] = useState('stripe');
+    const handleCheckout = async (plan: "basic" | "advanced", option: string) => {
+        try {
+            const response = await fetch(`/api/payments/${option}`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ plan, option }),
+            });
 
-    // State management for advanced plan
-    const [selectedAdvancedOption, setSelectedAdvancedOption] = useState('stripe');
+            if (!response.ok) {
+                throw new Error("Payment failed");
+            }
 
-    // Handlers for checkout clicks
-    const handleBasicCheckout = () => {
-        console.log('Basic plan checkout:', selectedBasicOption);
-        // Add your Stripe/Crypto logic here
-    };
-
-    const handleAdvancedCheckout = () => {
-        console.log('Advanced plan checkout:', selectedAdvancedOption);
-        // Add your Stripe/Crypto logic here
+            const { success, tokenId } = await response.json();
+            if (success) {
+                toast.success(`Successfully purchased ${plan} plan!`);
+                // Optionally redirect to my-comics with tokenId
+            } else {
+                throw new Error("Payment processing error");
+            }
+        } catch (error) {
+            console.error("Checkout error:", error);
+            toast.error("Failed to process payment. Please try again.");
+        }
     };
 
     return (
-        <div className="flex gap-8 justify-center p-8">
+        <div className="flex gap-8 justify-center p-8  ">
             <PricingPlan
                 title="Single Page"
                 subtitle="For Student Use"
-                coverImage="/image-placeholder.jpg"
+                coverImage="/images/image-placeholder.jpg" // TODO: Add actual image from the storybook
                 options={[
                     {
                         id: "stripe",
                         name: "Use Stripe",
                         price: "$100",
-                        description: "Single Page",
-                        period: "One-time payment"
+                        description: "",
+                        period: "One-time payment",
                     },
                     {
                         id: "crypto",
                         name: "Use Crypto",
                         price: "0.05 ETH",
                         description: "",
-                        period: "One time payment"
-                    }
+                        period: "One-time payment",
+                    },
                 ]}
                 selectedOption={selectedBasicOption}
                 onOptionChange={setSelectedBasicOption}
                 ctaText="CHECKOUT"
-                onCtaClick={handleBasicCheckout}
+                onCtaClick={() => handleCheckout("basic", selectedBasicOption)}
             />
 
             <PricingPlan
                 title="Full Storybook"
                 subtitle="For Professional Use"
-                coverImage="/image-placeholder.jpg"
+                coverImage="/images/image-placeholder.jpg" // TODO: Add actual image from the storybook
                 options={[
                     {
                         id: "stripe",
                         name: "Use Stripe",
-                        price: "$300/month",
-                        description: "Full access",
-                        period: "Monthly subscription"
+                        price: "$300",
+                        description: "",
+                        period: "One-time payment",
                     },
                     {
                         id: "crypto",
                         name: "Use Crypto",
                         price: "0.5 ETH",
                         description: "",
-                        period: "One time payment"
-                    }
+                        period: "One-time payment",
+                    },
                 ]}
                 selectedOption={selectedAdvancedOption}
                 onOptionChange={setSelectedAdvancedOption}
                 ctaText="CHECKOUT"
-                onCtaClick={handleAdvancedCheckout}
+                onCtaClick={() => handleCheckout("advanced", selectedAdvancedOption)}
             />
         </div>
     );
 }
 
-
-export default page
+export default CheckoutPage;

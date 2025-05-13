@@ -1,36 +1,63 @@
-"use client"
+"use client";
 
-import CustomButton from "@/components/CustomButton"
-import React from 'react'
-import { useRouter } from "next/navigation"
+import CustomButton from "@/components/CustomButton";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import ComicPreview from "@/components/comic/ComicPreview";
+import { toast } from "sonner";
 
-type Props = {}
-
-function page({ }: Props) {
-    const router = useRouter();
-
-    const handleEdit = () => {
-        router.push("/image-upload"); // TODO: reference the image upload and AI Story page
-    }
-
-    const handleProceed = () => {
-        // Add your proceed logic here
-        router.push("/checkout");
-    }
-
-    return (
-        <div className="w-full h-full">
-            <div className="p-2 w-[90%] mx-auto min-h-100 bg-white text-black rounded-none mb-4 border-4 border-black">page</div>
-            <div className="flex flex-col gap-6 items-end -mt-25 -ml-80">
-                <div>
-                    <CustomButton onClick={() => handleEdit()} className="bg-red-700 text-white hover:text-black">EDIT</CustomButton>
-                </div>
-                <div>
-                    <CustomButton onClick={() => handleProceed()} className="bg-green-700 text-white hover:text-black">PROCEED</CustomButton>
-                </div>
-            </div>
-        </div>
-    )
+interface ComicPage {
+    image: string;
+    text: string;
 }
 
-export default page
+interface Props {
+    comicPages: ComicPage[];
+}
+
+function MintPage({ }: Props) {
+    const router = useRouter();
+    const [comicPages, setComicPages] = useState<ComicPage[]>([]);
+
+    useEffect(() => {
+        const fetchComic = async () => {
+            try {
+                const response = await fetch("/api/comics/preview");
+                if (!response.ok) {
+                    throw new Error("Failed to fetch comic");
+                }
+                const data = await response.json();
+                setComicPages(data.pages || []);
+            } catch (error) {
+                console.error("Error:", error);
+                toast.error("Failed to load comic preview.");
+            }
+        };
+        fetchComic();
+    }, []);
+
+    const handleEdit = () => {
+        router.push("/how-it-works");
+    };
+
+    const handleProceed = () => {
+        router.push("/checkout");
+    };
+
+    return (
+        <div className="w-full min-h-screen p-4 flex flex-col items-center">
+            <h2 className="text-3xl font-bold mb-6">Your Comic Preview</h2>
+            <ComicPreview pages={comicPages} />
+            <div className="flex gap-6 mt-6">
+                <CustomButton onClick={handleEdit} className="bg-red-700 text-white hover:text-black">
+                    EDIT
+                </CustomButton>
+                <CustomButton onClick={handleProceed} className="bg-green-700 text-white hover:text-black">
+                    PROCEED
+                </CustomButton>
+            </div>
+        </div>
+    );
+}
+
+export default MintPage;
