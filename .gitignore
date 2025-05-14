@@ -66,6 +66,10 @@ node_modules
 # Hardhat files
 /cache
 /artifacts
+# Hardhat/Truffle (Smart Contracts)
+/artifacts/
+/cache/
+/deployments/
 
 # TypeChain files
 /typechain
@@ -80,5 +84,15 @@ ignition/deployments/chain-31337
 
 # Smart contracts
 contracts/artifacts/*
-contracts/cache
+contracts/cache/
 contracts/typechain-types
+contracts/node_modules/
+contracts/.env
+contracts/dist/
+contracts/build/
+
+# Node.js
+node_modules/
+.env
+dist/
+build/
