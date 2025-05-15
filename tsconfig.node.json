@@ -8,13 +8,27 @@
             "@/*": [
                 "./*"
             ]
-        }
+        },
+        "rootDir": ".",
+        "outDir": "dist",
+        "allowJs": true,
+        "checkJs": false
     },
     "ts-node": {
         "transpileOnly": true,
         "files": true,
         "require": [
             "tsconfig-paths/register"
-        ]
-    }
+        ],
+        "esm": false
+    },
+    "include": [
+        "tests/**/*",
+        "scripts/**/*",
+        "lib/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
 }
