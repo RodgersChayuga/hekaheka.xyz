@@ -75,7 +75,7 @@ const Background = ({ children, config }: BackgroundProps) => {
                             left: position.left,
                             right: position.right,
                             bottom: position.bottom,
-                            animationDelay: animationDelays[i],
+                            animationDelay: position.animationDelay || "0s",
                         }}
                     >
                         <Image

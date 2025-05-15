@@ -3,7 +3,7 @@ export type Position = {
     left?: string;
     right?: string;
     bottom?: string;
-    delay?: string;
+    animationDelay?: string;
 };
 
 export type CloudConfig = {

@@ -179,24 +179,24 @@ export const backgroundConfigs: Record<string, BackgroundConfig> = {
     mint: {
         starPositions: [
             // Top-center quadrant
-            { top: "12%", left: "50%", delay: "0.5s" },
-            { top: "14%", left: "70%", delay: "1.2s" },
-            { top: "-2%", left: "30%", delay: "0.8s" },
+            { top: "12%", left: "50%", animationDelay: "0.5s" },
+            { top: "14%", left: "70%", animationDelay: "1.2s" },
+            { top: "-2%", left: "30%", animationDelay: "0.8s" },
 
             // Bottom-left quadrant
-            { top: "75%", left: "5%", delay: "1.5s" },
-            { top: "88%", left: "15%", delay: "2.1s" },
-            { top: "92%", left: "-4%", delay: "0.3s" },
+            { top: "75%", left: "5%", animationDelay: "1.5s" },
+            { top: "88%", left: "15%", animationDelay: "2.1s" },
+            { top: "92%", left: "-4%", animationDelay: "0.3s" },
 
             // Bottom-right quadrant
-            { top: "62%", left: "95%", delay: "1.7s" },
-            { top: "95%", left: "75%", delay: "0.9s" },
-            { top: "70%", left: "92%", delay: "2.3s" },
+            { top: "62%", left: "95%", animationDelay: "1.7s" },
+            { top: "95%", left: "75%", animationDelay: "0.9s" },
+            { top: "70%", left: "92%", animationDelay: "2.3s" },
 
             // Bottom-center quadrant
-            { top: "52%", left: "50%", delay: "1.1s" },
-            { top: "75%", left: "70%", delay: "0.7s" },
-            { top: "70%", left: "10%", delay: "1.9s" }
+            { top: "52%", left: "50%", animationDelay: "1.1s" },
+            { top: "75%", left: "70%", animationDelay: "0.7s" },
+            { top: "70%", left: "10%", animationDelay: "1.9s" }
         ],
         animationVariants: ["slow", "medium", "fast"],
         clouds: {
