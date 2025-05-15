@@ -429,6 +429,20 @@ comichain/
 └── README.md
 ```
 
+## 11.3 The Generated comic metadata will follow this structure
+```
+{
+  "version": "1.0",
+  "story": "user's story text",
+  "characters": ["character1", "character2"],
+  "pages": [
+    { "character": "character1", "ipfsHash": "Qm..." },
+    { "character": "character2", "ipfsHash": "Qm..." }
+  ],
+  "generatedAt": "ISO timestamp"
+}
+```
+
 ---
 
 ## 12. Figma Design Integration

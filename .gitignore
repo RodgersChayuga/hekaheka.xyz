@@ -90,6 +90,7 @@ contracts/node_modules/
 contracts/.env
 contracts/dist/
 contracts/build/
+contracts/deployed
 
 # Node.js
 node_modules/

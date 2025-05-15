@@ -5,6 +5,8 @@ import SearchBar from "@/components/marketplace/SearchBar";
 import ComicListing from "@/components/marketplace/ComicListing";
 import CustomButton from "@/components/CustomButton";
 import { toast } from "sonner";
+import { ethers } from "ethers";
+import { ComicMarketplace } from "../../contracts/artifacts/contracts/ComicMarketplace.sol/ComicMarketplace.json";
 
 interface Comic {
     tokenId: string;
@@ -82,6 +84,25 @@ function MarketplacePage() {
             console.error("Error:", error);
             toast.error("Failed to publish comic.");
         }
+    };
+
+    const handleList = async (tokenId: string, price: string) => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const marketplace = new ethers.Contract(
+            process.env.NEXT_PUBLIC_MARKETPLACE_ADDRESS!,
+            ComicMarketplace.abi,
+            signer
+        );
+
+        const tx = await marketplace.listComic(
+            tokenId,
+            ethers.parseEther(price),
+            { value: ethers.parseEther("0.005") }
+        );
+
+        await tx.wait();
+        toast.success("Comic listed on marketplace!");
     };
 
     return (

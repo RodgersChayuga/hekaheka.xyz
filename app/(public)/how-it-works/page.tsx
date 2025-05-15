@@ -37,32 +37,21 @@ function HowItWorks({ }: Props) {
       return;
     }
 
-    try {
-      const response = await fetch("/api/comics/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ story, characters }),
-      });
+    // Only store serializable data
+    localStorage.setItem("aiStory", story);
+    localStorage.setItem("characters", JSON.stringify(characters));
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to process story");
-      }
+    // Use URL query instead of complex state
+    // router.push(`/image-upload?${new URLSearchParams({
+    //   story: encodeURIComponent(story),
+    //   characters: encodeURIComponent(JSON.stringify(characters))
+    // })}`);
 
-      const { success } = await response.json();
-      if (!success) {
-        throw new Error("Story processing failed");
-      }
-
-      if (typeof window !== 'undefined') {
-        localStorage.setItem("aiStory", story);
-        localStorage.setItem("characters", JSON.stringify(characters));
-      }
-      router.push("/image-upload");
-    } catch (error: any) {
-      console.error("Error:", error);
-      toast.error(error.message || "Failed to process story. Please try again.");
-    }
+    const params = new URLSearchParams({
+      story: encodeURIComponent(story),
+      characters: encodeURIComponent(JSON.stringify(characters))
+    });
+    router.push(`/image-upload?${params}`);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,7 +70,7 @@ function HowItWorks({ }: Props) {
   };
 
   if (!isClient) {
-    return null; // or a loading state
+    return null;
   }
 
   return (
