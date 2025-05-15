@@ -1,8 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# dependencies
-/node_modules
-/.pnp
+# Dependencies
+node_modules/
+.pnp/
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -11,78 +11,57 @@
 !.yarn/versions
 pnpm-lock.yaml
 
-# testing
+# Testing
 /coverage
+/coverage.json
 
-# next.js
+# Next.js
 /.next/
 /out/
+.next/
+next-env.d.ts
 
-# production
+# Production
 /build
+/dist
 
-# misc
-.DS_Store
-*.pem
+# Environment Variables
+.env
+.env.*
+.env.local
+.env.development
+.env.test
+.env.production
 
-# debug
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
-.env.local
+# IDE and Editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+*.pem
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# TypeScript
 *.tsbuildinfo
-next-env.d.ts
 
-node_modules
-.env
-
-# Hardhat files
+# Hardhat
 /cache
 /artifacts
-
-# TypeChain files
+/deployments
 /typechain
 /typechain-types
-
-# solidity-coverage files
-/coverage
-/coverage.json
-
-# Hardhat Ignition default folder for deployments against a local node
 ignition/deployments/chain-31337
 
-node_modules
-.env
-
-# Hardhat files
-/cache
-/artifacts
-# Hardhat/Truffle (Smart Contracts)
-/artifacts/
-/cache/
-/deployments/
-
-# TypeChain files
-/typechain
-/typechain-types
-
-# solidity-coverage files
-/coverage
-/coverage.json
-
-# Hardhat Ignition default folder for deployments against a local node
-ignition/deployments/chain-31337
-
-# Smart contracts
+# Smart Contracts
 contracts/artifacts/*
 contracts/cache/
 contracts/typechain-types
@@ -90,10 +69,18 @@ contracts/node_modules/
 contracts/.env
 contracts/dist/
 contracts/build/
-contracts/deployed
+contracts/deployed/
 
-# Node.js
-node_modules/
-.env
-dist/
-build/
+# Project specific
+/designs/
+/deployed/
+/tests/coverage/
+/tests/artifacts/
+/tests/cache/
+
+# Misc
+.DS_Store
+*.log
+*.pid
+*.seed
+*.pid.lock
