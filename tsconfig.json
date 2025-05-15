@@ -34,7 +34,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "typechain-types/**/*",
+    "**/*.test.ts",
+    "**/*.test.tsx"
   ],
   "exclude": [
     "node_modules"
