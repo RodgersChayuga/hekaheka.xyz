@@ -110,7 +110,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
             <div className="min-h-screen relative z-30">
                 <Header />
                 <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center">
-                    <div className="w-full pt-24">
+                    <div className="w-full">
                         {children}
                     </div>
                 </main>

@@ -5,7 +5,6 @@ import { cn } from "@/lib/utils";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import Image from "next/image";
-import CustomButton from "@/components/CustomButton";
 
 type PricingOption = {
     id: string;
@@ -36,7 +35,7 @@ export const PricingPlan = ({
     onOptionChange,
     ctaText,
     onCtaClick,
-    disabled = false,
+    disabled = false
 }: PricingPlanProps) => {
     return (
         <div className="w-full max-w-sm flex flex-col bg-white rounded-lg border-2 border-black p-4">
@@ -48,11 +47,11 @@ export const PricingPlan = ({
             <div className="relative mx-auto mb-6 w-40 h-56">
                 <Image
                     src={coverImage}
-                    alt={`${title} cover`}
+                    alt="Comic cover"
                     fill
                     className="object-cover"
                     placeholder="blur"
-                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAC0wEy3fGscAAAAABJRU5ErkJggg=="
+                    blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkqAcAAIUAgUW0RjgAAAAASUVORK5CYII="
                 />
             </div>
 
@@ -60,14 +59,15 @@ export const PricingPlan = ({
                 value={selectedOption}
                 onValueChange={onOptionChange}
                 className="space-y-3 mb-6"
-                aria-label={`Payment options for ${title}`}
             >
                 {options.map((option) => (
                     <div
                         key={option.id}
                         className={cn(
                             "flex items-center justify-between rounded-lg border-2 p-4",
-                            selectedOption === option.id ? "border-primary bg-primary/10" : "border-gray-200"
+                            selectedOption === option.id
+                                ? "border-primary bg-primary/10"
+                                : "border-gray-200"
                         )}
                     >
                         <div className="flex items-center space-x-3">
@@ -85,9 +85,17 @@ export const PricingPlan = ({
                 ))}
             </RadioGroup>
 
-            <CustomButton onClick={onCtaClick} disabled={disabled} className="w-full">
+            <button
+                onClick={onCtaClick}
+                disabled={disabled}
+                className={cn(
+                    "w-full font-bold text-lg py-6 rounded-md transition-colors",
+                    "bg-green-700 text-white hover:text-black",
+                    disabled && "bg-gray-400 cursor-not-allowed hover:text-white"
+                )}
+            >
                 {ctaText}
-            </CustomButton>
+            </button>
         </div>
     );
 };
