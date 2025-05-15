@@ -118,7 +118,7 @@ This project is developed for the [Base Batch Africa hackathon](https://base-bat
 ### 6.1 ComicNFT Contract
 ```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -159,7 +159,7 @@ contract ComicNFT is ERC721, Ownable {
 ### 6.2 Marketplace Contract
 ```solidity
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.20;
+pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./ComicNFT.sol";
