@@ -59,7 +59,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
                         src="/images/comic_cloud.png"
                         alt="Bottom left cloud"
                         fill
-                        className=""
+                        className="animate-float"
                     />
                 </div>
                 {/* Bottom Right Cloud */}
@@ -68,7 +68,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
                         src="/images/comic_cloud.png"
                         alt="Bottom right cloud"
                         fill
-                        className=""
+                        className="animate-float"
                     />
                 </div>
 
@@ -116,7 +116,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
             <div className="min-h-screen relative z-30">
                 <Header />
                 <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center">
-                    <div className="w-full">
+                    <div className="w-full pt-24">
                         {children}
                     </div>
                 </main>

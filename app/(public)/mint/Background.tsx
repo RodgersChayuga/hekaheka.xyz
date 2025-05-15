@@ -10,34 +10,31 @@ import { useMemo } from "react";
 const STAR_POSITIONS = [
 
     // Top-center quadrant
-    { top: "12%", left: "50%" },
-    { top: "14%", left: "70%" },
-    { top: "-2%", left: "30%" },
+    { top: "12%", left: "50%", delay: "0.5s" },
+    { top: "14%", left: "70%", delay: "1.2s" },
+    { top: "-2%", left: "30%", delay: "0.8s" },
 
     // Bottom-left quadrant
-    { top: "75%", left: "5%" },
-    { top: "88%", left: "15%" },
-    { top: "92%", left: "-4%" },
+    { top: "75%", left: "5%", delay: "1.5s" },
+    { top: "88%", left: "15%", delay: "2.1s" },
+    { top: "92%", left: "-4%", delay: "0.3s" },
 
     // Bottom-right quadrant
-    { top: "62%", left: "95%" },
-    { top: "95%", left: "75%" },
-    { top: "70%", left: "92%" },
+    { top: "62%", left: "95%", delay: "1.7s" },
+    { top: "95%", left: "75%", delay: "0.9s" },
+    { top: "70%", left: "92%", delay: "2.3s" },
 
     // Bottom-center quadrant
-    { top: "52%", left: "50%" },
-    { top: "75%", left: "70%" },
-    { top: "70%", left: "10%" },
+    { top: "52%", left: "50%", delay: "1.1s" },
+    { top: "75%", left: "70%", delay: "0.7s" },
+    { top: "70%", left: "10%", delay: "1.9s" }
 ];
 
 // Animation variants for the stars
 const ANIMATION_VARIANTS = ["slow", "medium", "fast"];
 
 const Background = ({ children }: { children: React.ReactNode }) => {
-    // Generate random delays for star animations, but only once per component mount
-    const animationDelays = useMemo(() => {
-        return STAR_POSITIONS.map(() => `${Math.random() * 3}s`);
-    }, []);
+  
 
     return (
         <div className="h-screen bg-comic-pattern animate-comic-fade relative overflow-hidden ">
@@ -74,7 +71,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
                         style={{
                             top: position.top,
                             left: position.left,
-                            animationDelay: animationDelays[i],
+                            animationDelay: position.delay,
                         }}
                     >
                         <Image
@@ -110,7 +107,7 @@ const Background = ({ children }: { children: React.ReactNode }) => {
             <div className="min-h-screen relative z-30">
                 <Header />
                 <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center">
-                    <div className="w-full">
+                    <div className="w-full pt-24">
                         {children}
                     </div>
                 </main>

@@ -3,6 +3,16 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Permanent_Marker } from 'next/font/google';
 
 import "./globals.css";
+import { Providers } from "./providers";
+
+import { verifyPinataAuth } from '@/lib/ipfs/pinata';
+
+export async function initializeApp() {
+  const authValid = await verifyPinataAuth();
+  if (!authValid) {
+    throw new Error('Failed to authenticate with Pinata');
+  }
+}
 
 const permanentMarker = Permanent_Marker({
   weight: '400',
@@ -29,11 +39,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geist.variable} `}
-      >
-
-        {children}
+      <body className={`${geist.variable}`}>
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );
