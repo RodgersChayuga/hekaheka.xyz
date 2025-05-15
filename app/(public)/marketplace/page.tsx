@@ -6,8 +6,7 @@ import ComicListing from "@/components/marketplace/ComicListing";
 import CustomButton from "@/components/CustomButton";
 import { toast } from "sonner";
 import { ethers } from "ethers";
-import { ComicMarketplace } from "../../contracts/artifacts/contracts/ComicMarketplace.sol/ComicMarketplace.json";
-
+import ComicMarketplace from "@/contracts/artifacts/contracts/ComicMarketplace.sol/ComicMarketplace.json";
 interface Comic {
     tokenId: string;
     metadata: { name: string; image: string };
