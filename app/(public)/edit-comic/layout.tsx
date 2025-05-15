@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Background from "./Background";
+import Background from "@/components/Background";
+import { backgroundConfigs } from "@/components/Background/background-configs";
 
 export const metadata: Metadata = {
     title: "Edit Comic",
@@ -13,7 +14,7 @@ export default function EditComicLayout({
 }>) {
     return (
         <div className="min-h-screen flex flex-col">
-            <Background>
+            <Background config={backgroundConfigs.editComic}>
                 {children}
             </Background>
         </div>

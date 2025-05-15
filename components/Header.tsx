@@ -17,19 +17,6 @@ const Header = () => {
         <header className=" z-50 sticky ">
             <nav className="fixed  w-full bg-white/40  shadow-sm z-50 py-4">
                 <div className="container mx-auto flex items-center justify-around h-16 px-4 relative">
-                    {/* Center Logo with Home Link */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <Link href="/">
-                            <div className="w-20 h-20 relative hover:cursor-pointer">
-                                <Image
-                                    src="/images/comic_thunder.png"
-                                    alt="ComicChain logo"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
-                        </Link>
-                    </div>
                     {/* Left Menu Items */}
                     <div className="flex items-center gap-4">
                         {(["HOME", "HOW IT WORKS", "MINT", "MARKETPLACE"] as MenuItem[]).map((item) => (
@@ -44,7 +31,19 @@ const Header = () => {
                         ))}
                     </div>
 
-                    
+                    {/* Center Logo with Home Link */}
+                    <div className="absolute left-1/2 transform -translate-x-1/2">
+                        <Link href="/">
+                            <div className="w-20 h-20 relative hover:cursor-pointer">
+                                <Image
+                                    src="/images/comic_thunder.png"
+                                    alt="ComicChain logo"
+                                    fill
+                                    className="object-contain"
+                                />
+                            </div>
+                        </Link>
+                    </div>
 
                     {/* Right Menu Items and Social Icons */}
                     <div className="flex items-center gap-4">
@@ -61,8 +60,8 @@ const Header = () => {
                                 <MessageCircle />
                             </a>
                         </div>
+                        <ConnectAndSIWE />
                     </div>
-                    <ConnectAndSIWE />
                 </div>
             </nav>
         </header>
