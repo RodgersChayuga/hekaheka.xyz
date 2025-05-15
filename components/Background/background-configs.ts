@@ -53,10 +53,10 @@ export const backgroundConfigs: Record<string, BackgroundConfig> = {
                 image: "/images/comic_sun_left.png"
             },
             right: {
-                position: { top: "0", right: "0" },
-                size: { width: "20rem", height: "20rem" },
+                position: { top: "-20%", right: "-10%" },
+                size: { width: "30rem", height: "30rem" },
                 zIndex: 20,
-                image: "/images/comic_sun_right.png"
+                image: "/images/comic_sun.png"
             }
         }
     },

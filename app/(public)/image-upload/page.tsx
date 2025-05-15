@@ -118,13 +118,14 @@ const ImageUpload = () => {
             <div className="flex justify-center gap-4 mt-4">
                 <CustomButton
                     onClick={() => router.back()}
-                    className="bg-secondary text-white"
+                    className=" "
                 >
                     Back
                 </CustomButton>
 
                 <CustomButton
                     onClick={handleCreateComic}
+                    className={characters.length === 0 ? "bg-black text-white" : ""}
                     disabled={isLoading || characters.length === 0 || !characters.every(c => characterFiles[c]?.length > 0)}
                 >
                     {isLoading ? "Generating..." : "Create Comic"}

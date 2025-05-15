@@ -38,7 +38,7 @@ const Background = ({ children, config }: BackgroundProps) => {
                             src="/images/comic_cloud.png"
                             alt="Bottom left cloud"
                             fill
-                            className=""
+                            className="animate-float"
                         />
                     </div>
                 )}
@@ -60,7 +60,7 @@ const Background = ({ children, config }: BackgroundProps) => {
                             src="/images/comic_cloud.png"
                             alt="Bottom right cloud"
                             fill
-                            className=""
+                            className="animate-float"
                         />
                     </div>
                 )}
@@ -102,10 +102,10 @@ const Background = ({ children, config }: BackgroundProps) => {
                         }}
                     >
                         <Image
-                            src={config.suns.left?.image || "/images/comic_sun_left.png"}
+                            src={config.suns.left?.image || "/images/comic_sun.png"}
                             alt="Smaller sun at top left"
                             fill
-                            className=""
+                            className="animate-float"
                         />
                     </div>
                 )}
@@ -127,7 +127,7 @@ const Background = ({ children, config }: BackgroundProps) => {
                             src={config.suns.right?.image || "/images/comic_sun.png"}
                             alt="Large sun at top right"
                             fill
-                            className="w-full h-full"
+                            className="w-full h-full animate-float"
                         />
                     </div>
                 )}
