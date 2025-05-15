@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Background from "./Background";
-
+import Background from "@/components/Background";
+import { backgroundConfigs } from "@/components/Background/background-configs";
 
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default function MintLayout({
         <div
             className=""
         >
-            <Background>
+            <Background config={backgroundConfigs.mint}>
                 {children}
             </Background>
         </div>

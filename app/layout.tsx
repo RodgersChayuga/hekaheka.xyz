@@ -33,8 +33,10 @@ export default function RootLayout({
       <body
         className={`${geist.variable}`}
       >
-
-        <Providers>{children}</Providers>
+        <Providers>
+          
+            {children}
+        </Providers>
       </body>
     </html>
   );

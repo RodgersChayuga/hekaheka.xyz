@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import Background from "./Background";
+import Background from "@/components/Background";
+import { backgroundConfigs } from "@/components/Background/background-configs";
 
 
 
@@ -17,7 +18,7 @@ export default function HowItWorksLayout({
     <div
       className=""
     >
-      <Background>
+      <Background config={backgroundConfigs.howItWorks}>
         {children}
       </Background>
     </div>
