@@ -1,146 +1,134 @@
+
 "use client";
 
-import React, { useState, useEffect } from "react";
-import CustomButton from "@/components/CustomButton";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import PhotoUpload from "./Upload";
 import { toast } from "sonner";
+import CustomButton from "@/components/CustomButton";
+import PhotoUpload from "./Upload";
 
-type Props = {};
-
-const ImageUpload = (props: Props) => {
+const ImageUpload = () => {
     const router = useRouter();
     const [characters, setCharacters] = useState<string[]>([]);
     const [story, setStory] = useState<string>("");
     const [characterFiles, setCharacterFiles] = useState<Record<string, File[]>>({});
+    const [isLoading, setIsLoading] = useState(false);
 
-    const updateCharacterFiles = (character: string, files: File[]) => {
-        setCharacterFiles((prev) => ({
-            ...prev,
-            [character]: files,
-        }));
-    };
-
+    // Get data from URL params first, then localStorage
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
+        const urlStory = params.get('story');
+        const urlCharacters = params.get('characters');
+
         try {
-            const storedCharacters = localStorage.getItem("characters");
-            const storedStory = localStorage.getItem("aiStory");
+            setStory(urlStory || localStorage.getItem("aiStory") || "");
 
-            if (storedCharacters) {
-                const parsedCharacters = JSON.parse(storedCharacters);
-                if (Array.isArray(parsedCharacters) && parsedCharacters.every((char) => typeof char === "string")) {
-                    setCharacters(parsedCharacters);
-                } else {
-                    throw new Error("Invalid characters data");
-                }
-            } else {
-                toast.error("No characters found. Please go back and add characters.");
-                router.push("/how-it-works");
+            const chars = urlCharacters
+                ? JSON.parse(decodeURIComponent(urlCharacters))
+                : JSON.parse(localStorage.getItem("characters") || "[]");
+
+            if (!Array.isArray(chars)) {
+                throw new Error("Invalid characters format");
             }
 
-            if (storedStory) {
-                setStory(storedStory);
-            }
+            setCharacters(chars);
         } catch (error) {
-            console.error("Error parsing localStorage data:", error);
+            console.error("Data loading error:", error);
             toast.error("Invalid data format. Please start over.");
-            localStorage.removeItem("characters");
-            localStorage.removeItem("aiStory");
             router.push("/how-it-works");
         }
     }, [router]);
 
-    const handleBack = () => {
-        router.push("/how-it-works");
+    const updateCharacterFiles = (character: string, files: File[]) => {
+        setCharacterFiles(prev => ({
+            ...prev,
+            [character]: files
+        }));
     };
 
-    const handleNext = async () => {
-        if (characters.length === 0) {
-            toast.error("No characters found. Please add characters.");
-            return;
+    const handleCreateComic = async () => {
+        if (!characters.every(c => characterFiles[c]?.length > 0)) {
+            return toast.error("Please upload images for all characters");
         }
 
-        const hasFiles = characters.every((character) => characterFiles[character]?.length > 0);
-        if (!hasFiles) {
-            toast.error("Please upload at least one image for each character.");
-            return;
-        }
-
+        setIsLoading(true);
         try {
             const formData = new FormData();
             formData.append("story", story);
             formData.append("characters", JSON.stringify(characters));
-            characters.forEach((character) => {
-                characterFiles[character]?.forEach((file, index) => {
+
+            // Add all image files
+            characters.forEach(character => {
+                const files = characterFiles[character] || [];
+                files.forEach((file, index) => {
                     formData.append(`${character}-${index}`, file);
                 });
             });
 
-            const response = await fetch("/api/comics/upload", {
+            const response = await fetch("/api/comics/generate", {
                 method: "POST",
                 body: formData,
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.message || "Failed to upload images");
+                const errorData = await response.json().catch(() => null);
+                throw new Error(errorData?.error || "Comic generation failed");
             }
 
-            const { success, ipfsHashes } = await response.json();
-            if (!success) {
-                throw new Error("Image upload failed");
-            }
+            const data = await response.json();
+            router.push(`/comic/${data.ipfsHash}`);
 
-            localStorage.setItem("ipfsHashes", JSON.stringify(ipfsHashes));
-            router.push("/mint");
-        } catch (error: any) {
-            console.error("Error:", error);
-            toast.error(error.message || "Failed to upload images. Please try again.");
+        } catch (error) {
+            console.error("Comic creation failed:", error);
+            toast.error(error instanceof Error ? error.message : "Unknown error");
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
-        <div className="flex gap-8 relative min-h-screen p-4">
-            <div className="text-center flex flex-col items-center justify-center flex-1 relative">
-                <h2 className="text-3xl font-bold mb-6">Upload Character Photos</h2>
+        <div className="flex flex-col gap-8 p-4 max-w-4xl mx-auto">
+            <h1 className="text-3xl font-bold text-center">
+                Upload Character Images
+            </h1>
 
-                {characters.length === 0 ? (
-                    <div className="p-4 bg-yellow-100 border border-yellow-300 rounded mb-4">
-                        No characters found. Please go back and add character names.
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8 w-full">
-                        {characters.map((character, idx) => (
-                            <div key={idx}>
-                                <PhotoUpload
-                                    character={character}
-                                    files={characterFiles[character] || []}
-                                    setFiles={(files) => updateCharacterFiles(character, files)}
-                                />
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                <div className="flex items-center justify-between w-full mt-8">
-                    <div className="flex flex-col items-center justify-center w-full">
-                        <div className="mb-8">
-                            <p className="text-sm font-light text-black leading-relaxed">
-                                Upload photos of your characters to bring your story to life.
-                            </p>
-                            <p className="text-sm font-light text-black leading-relaxed">
-                                These images will be used to generate your personalized comic.
-                            </p>
-                        </div>
-
-                        <div className="flex justify-around gap-8">
-                            <CustomButton onClick={handleBack}>BACK</CustomButton>
-                            <CustomButton onClick={handleNext} disabled={characters.length === 0}>
-                                NEXT
-                            </CustomButton>
-                        </div>
-                    </div>
+            {characters.length === 0 ? (
+                <div className="p-4 bg-yellow-100 border border-yellow-300 rounded mb-4 text-center">
+                    No characters found. Please go back and add character names.
                 </div>
+            ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {characters.map((character) => (
+                        <div key={character}>
+                            <PhotoUpload
+                                character={character}
+                                files={characterFiles[character] || []}
+                                setFiles={(files) => updateCharacterFiles(character, files)}
+                            />
+                        </div>
+                    ))}
+                </div>
+            )}
+
+            <div className="text-center space-y-2 text-sm text-muted-foreground">
+                <p>Upload high-quality images for best results</p>
+                <p>Supported formats: JPEG, PNG (max 5MB each)</p>
+            </div>
+
+            <div className="flex justify-center gap-4 mt-4">
+                <CustomButton
+                    onClick={() => router.back()}
+                    className="bg-secondary text-white"
+                >
+                    Back
+                </CustomButton>
+
+                <CustomButton
+                    onClick={handleCreateComic}
+                    disabled={isLoading || characters.length === 0 || !characters.every(c => characterFiles[c]?.length > 0)}
+                >
+                    {isLoading ? "Generating..." : "Create Comic"}
+                </CustomButton>
             </div>
         </div>
     );

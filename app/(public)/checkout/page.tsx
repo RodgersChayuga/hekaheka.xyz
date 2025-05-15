@@ -4,6 +4,7 @@ import { PricingPlan } from "./PricingPlan";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { handleMint } from "@/components/MintButton";
 
 type Props = {};
 
@@ -26,9 +27,14 @@ function CheckoutPage({ }: Props) {
 
             const { success, tokenId } = await response.json();
             if (success) {
+                // Mint NFT
+                await handleMint("your-ipfs-hash-here");
+
                 localStorage.setItem("isPurchased", "true");
                 localStorage.setItem("purchasedPlan", plan);
                 localStorage.setItem("tokenId", tokenId);
+                localStorage.setItem("listOnMarketplace", "true");
+
                 toast.success(`Successfully purchased ${plan} plan!`);
                 router.push("/marketplace");
             } else {
