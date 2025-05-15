@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Permanent_Marker } from 'next/font/google';
 
 import "./globals.css";
+import { Providers } from "./providers";
 
 const permanentMarker = Permanent_Marker({
   weight: '400',
@@ -33,7 +34,7 @@ export default function RootLayout({
         className={`${geist.variable}`}
       >
 
-        {children}
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import { ConnectAndSIWE } from "./ConnectAndSIWE";
 
 const Header = () => {
     type MenuItem = "HOME" | "HOW IT WORKS" | "MINT" | "MARKETPLACE";
@@ -18,7 +19,7 @@ const Header = () => {
                 <div className="container mx-auto flex items-center justify-around h-16 px-4 relative">
                     {/* Left Menu Items */}
                     <div className="flex items-center gap-4">
-                        {(["HOME", "HOW IT WORKS"] as MenuItem[]).map((item) => (
+                        {(["HOME", "HOW IT WORKS", "MINT", "MARKETPLACE"] as MenuItem[]).map((item) => (
                             <Button
                                 key={item}
                                 variant="ghost"
@@ -46,16 +47,7 @@ const Header = () => {
 
                     {/* Right Menu Items and Social Icons */}
                     <div className="flex items-center gap-4">
-                        {(["MINT", "MARKETPLACE"] as MenuItem[]).map((item) => (
-                            <Button
-                                key={item}
-                                variant="ghost"
-                                className="text-xl font-permanent-marker hover:bg-transparent text-black hover:text-yellow-500"
-                                asChild
-                            >
-                                <Link href={menuLinks[item]}>{item}</Link>
-                            </Button>
-                        ))}
+                        
                         {/* Social Media Icons (mocked URLs) */}
                         <div className="flex gap-3">
                             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
@@ -68,6 +60,7 @@ const Header = () => {
                                 <MessageCircle />
                             </a>
                         </div>
+                        <ConnectAndSIWE />
                     </div>
                 </div>
             </nav>
