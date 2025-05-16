@@ -1,71 +1,53 @@
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import Link from "next/link";
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
-import { ConnectAndSIWE } from "./ConnectAndSIWE";
+'use client';
+import Link from 'next/link';
+import { Instagram, Facebook, MessageCircle } from 'lucide-react';
+// import ConnectAndSIWE from '@/components/ConnectAndSIWE';
+import Image from 'next/image';
 
-const Header = () => {
-    type MenuItem = "HOME" | "HOW IT WORKS" | "MINT" | "MARKETPLACE";
-    const menuLinks: Record<MenuItem, string> = {
-        HOME: "/",
-        "HOW IT WORKS": "/how-it-works",
-        MINT: "/mint",
-        MARKETPLACE: "/marketplace",
-    };
-
-    return (
-        <header className=" z-50 sticky ">
-            <nav className="fixed  w-full bg-white/40  shadow-sm z-50 py-4">
-                <div className="container mx-auto flex items-center justify-around h-16 px-4 relative">
-                    {/* Left Menu Items */}
-                    <div className="flex items-center gap-4">
-                        {(["HOME", "HOW IT WORKS", "MINT", "MARKETPLACE"] as MenuItem[]).map((item) => (
-                            <Button
-                                key={item}
-                                variant="ghost"
-                                className="text-xl font-permanent-marker hover:bg-transparent text-black hover:text-yellow-500"
-                                asChild
-                            >
-                                <Link href={menuLinks[item]}>{item}</Link>
-                            </Button>
-                        ))}
-                    </div>
-
-                    {/* Center Logo with Home Link */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
-                        <Link href="/">
-                            <div className="w-20 h-20 relative hover:cursor-pointer">
-                                <Image
-                                    src="/images/comic_thunder.png"
-                                    alt="ComicChain logo"
-                                    fill
-                                    className="object-contain"
-                                />
-                            </div>
-                        </Link>
-                    </div>
-
-                    {/* Right Menu Items and Social Icons */}
-                    <div className="flex items-center gap-4">
-                        
-                        {/* Social Media Icons (mocked URLs) */}
-                        <div className="flex gap-3">
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
-                                <Instagram />
-                            </a>
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
-                                <Facebook />
-                            </a>
-                            <a href="https://wa.me/254720033411" target="_blank" rel="noopener noreferrer" className="w-6 h-6 hover:text-yellow-500">
-                                <MessageCircle />
-                            </a>
-                        </div>
-                        <ConnectAndSIWE />
-                    </div>
-                </div>
-            </nav>
-        </header>
-    );
+const SOCIAL_LINKS = {
+    instagram: 'https://instagram.com/hekaheka',
+    facebook: 'https://facebook.com/hekaheka',
+    whatsapp: 'https://wa.me/254720033411',
 };
 
-export default Header;
+type MenuItem = {
+    label: string;
+    href: string;
+};
+
+const menuLinks: Record<string, MenuItem> = {
+    home: { label: 'HOME', href: '/' },
+    howItWorks: { label: 'HOW IT WORKS', href: '/how-it-works' },
+    mint: { label: 'MINT', href: '/mint' },
+    marketplace: { label: 'MARKETPLACE', href: '/marketplace' },
+    profile: { label: 'PROFILE', href: '/profile' },
+};
+
+export default function Header() {
+    return (
+        <header className="sticky top-0 z-50 flex items-center justify-between p-4 bg-white/40 backdrop-blur-md shadow-md">
+            <nav className="flex space-x-4">
+                {Object.values(menuLinks).map((item) => (
+                    <Link key={item.href} href={item.href}>
+                        <button className="text-gray-700 hover:text-yellow-500">{item.label}</button>
+                    </Link>
+                ))}
+            </nav>
+            <Link href="/" className="absolute left-1/2 transform -translate-x-1/2">
+                <Image src="/images/comic_thunder.png" alt="HekaHeka logo" width={128} height={128} />
+            </Link>
+            <div className="flex items-center space-x-4">
+                <Link href={SOCIAL_LINKS.instagram} target="_blank" rel="noopener noreferrer">
+                    <Instagram className="h-6 w-6 text-gray-700 hover:text-yellow-500" />
+                </Link>
+                <Link href={SOCIAL_LINKS.facebook} target="_blank" rel="noopener noreferrer">
+                    <Facebook className="h-6 w-6 text-gray-700 hover:text-yellow-500" />
+                </Link>
+                <Link href={SOCIAL_LINKS.whatsapp} target="_blank" rel="noopener noreferrer">
+                    <MessageCircle className="h-6 w-6 text-gray-700 hover:text-yellow-500" />
+                </Link>
+                {/* <ConnectAndSIWE /> */}
+            </div>
+        </header>
+    );
+}

@@ -30,6 +30,10 @@
       ]
     }
   },
+  "types": [
+    "wagmi",
+    "@coinbase/onchainkit"
+  ],
   "include": [
     "next-env.d.ts",
     "**/*.ts",

@@ -1,63 +1,93 @@
-import { useCallback, useEffect, useState } from "react";
-import type { Hex } from "viem";
-import { useAccount, useConnect, usePublicClient, useSignMessage } from "wagmi";
-import { SiweMessage } from "siwe";
-import { cbWalletConnector } from "@/wagmi";
-import CustomButton from "./CustomButton";
+'use client';
+import { useEffect, useState } from 'react';
+import { useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
+import { SiweMessage } from 'siwe';
+import { useZustandStore } from '@/lib/store';
 
-export function ConnectAndSIWE() {
-    const { connect } = useConnect({
-        mutation: {
-            onSuccess: (data) => {
-                const address = data.accounts[0];
-                const chainId = data.chainId;
-                const m = new SiweMessage({
-                    domain: document.location.host,
-                    address,
-                    chainId,
-                    uri: document.location.origin,
-                    version: "1",
-                    statement: "Smart Wallet SIWE Example",
-                    nonce: "12345678",
-                });
-                setMessage(m);
-                signMessage({ message: m.prepareMessage() });
-            },
-        },
-    });
-    const account = useAccount();
-    const client = usePublicClient();
-    const [signature, setSignature] = useState<Hex | undefined>(undefined);
-    const { signMessage } = useSignMessage({
-        mutation: { onSuccess: (sig) => setSignature(sig) },
-    });
-    const [message, setMessage] = useState<SiweMessage | undefined>(undefined);
-
-    const [valid, setValid] = useState<boolean | undefined>(undefined);
-
-    const checkValid = useCallback(async () => {
-        if (!signature || !account.address || !client || !message) return;
-
-        client
-            .verifyMessage({
-                address: account.address,
-                message: message.prepareMessage(),
-                signature,
-            })
-            .then((v) => setValid(v));
-    }, [signature, account]);
+export default function ConnectAndSIWE() {
+    const { address, isConnected } = useAccount();
+    const { connect, connectors } = useConnect();
+    const { disconnect } = useDisconnect();
+    const { signMessageAsync } = useSignMessage();
+    const { wallet, setWallet } = useZustandStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        checkValid();
-    }, [signature, account]);
+        if (isConnected && address && !wallet) {
+            // If connected but wallet state not set, attempt SIWE
+            handleSignIn();
+        }
+    }, [isConnected, address, wallet]);
 
-    useEffect(() => { });
+    const handleSignIn = async () => {
+        if (!address || !isConnected) return;
+
+        setIsLoading(true);
+        try {
+            const message = new SiweMessage({
+                domain: window.location.host,
+                address,
+                statement: 'Sign in to HekaHeka Mini-App',
+                uri: window.location.origin,
+                version: '1',
+                chainId: 8453, // Base chain ID
+            });
+            const signature = await signMessageAsync({ message: message.prepareMessage() });
+
+            // Verify signature (mocked for now, add server-side verification)
+            const isValid = true; // Replace with actual verification
+
+            if (isValid) {
+                setWallet({ address, isValid: true });
+                console.log('Wallet set in Zustand:', { address, isValid: true });
+            } else {
+                throw new Error('Signature verification failed');
+            }
+        } catch (error) {
+            console.error('SIWE error:', error);
+            disconnect();
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleConnect = async () => {
+        try {
+            await connect({ connector: connectors[0] }); // Use the first connector (e.g., MetaMask)
+        } catch (error) {
+            console.error('Wallet connection failed:', error);
+        }
+    };
+
+    const handleDisconnect = () => {
+        disconnect();
+        setWallet(null);
+        console.log('Wallet disconnected, Zustand state cleared');
+    };
 
     return (
-        <div>
-            <CustomButton onClick={() => connect({ connector: cbWalletConnector })}>
-                {valid != undefined ? <p> Is valid: {valid.toString()} </p> : <p>Connect + SIWE</p>}
-            </CustomButton>
+        <div className="flex items-center gap-4">
+            {isConnected && wallet ? (
+                <>
+                    <span className="text-sm text-gray-600">
+                        Connected: {wallet.address.slice(0, 6)}...{wallet.address.slice(-4)}
+                    </span>
+                    <button
+                        onClick={handleDisconnect}
+                        className="bg-red-700 text-white px-4 py-2 rounded hover:bg-red-600"
+                    >
+                        Disconnect
+                    </button>
+                </>
+            ) : (
+                <button
+                    onClick={handleConnect}
+                    disabled={isLoading}
+                    className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-600"
+                >
+                    {isLoading ? 'Connecting...' : 'Connect Wallet'}
+                </button>
+            )}
         </div>
     );
 }

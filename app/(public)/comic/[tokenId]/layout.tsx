@@ -5,11 +5,11 @@ import { backgroundConfigs } from "@/components/Background/background-configs";
 
 
 export const metadata: Metadata = {
-    title: "Story Input",
-    description: "Story Input",
+    title: "Comic",
+    description: "Comic",
 };
 
-export default function StoryInputLayout({
+export default function ComicLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -18,7 +18,7 @@ export default function StoryInputLayout({
         <div
             className=""
         >
-            <Background config={backgroundConfigs.storyInput}>
+            <Background config={backgroundConfigs.comic}>
                 {children}
             </Background>
         </div>

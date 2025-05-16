@@ -7,18 +7,18 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ error: 'Method not allowed' });
     }
 
-    const { tokenId, price } = req.body;
+    const { tokenId } = req.body;
 
-    if (!tokenId || !price) {
-        return res.status(400).json({ error: 'Token ID and price are required' });
+    if (!tokenId) {
+        return res.status(400).json({ error: 'Token ID is required' });
     }
 
     try {
-        // Note: Actual listing happens client-side in MintButton.tsx
+        // Note: Actual purchase happens client-side in ComicListing.tsx
         // This API can validate or trigger server-side logic if needed
         return res.status(200).json({ success: true });
     } catch (error) {
-        console.error('Publish error:', error);
-        return res.status(500).json({ error: 'Failed to publish comic' });
+        console.error('Buy error:', error);
+        return res.status(500).json({ error: 'Failed to purchase comic' });
     }
 }

@@ -34,8 +34,8 @@ export default function RootLayout({
         className={`${geist.variable}`}
       >
         <Providers>
-          
-            {children}
+
+          {children}
         </Providers>
       </body>
     </html>

@@ -17,7 +17,7 @@ const Background = ({ children, config }: BackgroundProps) => {
     }, [config.starPositions]);
 
     return (
-        <div className="h-screen bg-comic-pattern animate-comic-fade relative overflow-hidden">
+        <div className="bg-comic-pattern animate-comic-fade  h-screen top-0 left-0 right-0 bottom-0 sticky">
             {/* Background Elements */}
             <div className="-z-10">
                 {/* Clouds */}
@@ -134,10 +134,10 @@ const Background = ({ children, config }: BackgroundProps) => {
             </div>
 
             {/* Main Content */}
-            <div className="min-h-screen relative z-30">
+            <div className="h-full relative z-30 ">
                 <Header />
-                <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center">
-                    <div className="w-full pt-24">
+                <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center overflow-y-auto">
+                    <div className="w-full">
                         {children}
                     </div>
                 </main>

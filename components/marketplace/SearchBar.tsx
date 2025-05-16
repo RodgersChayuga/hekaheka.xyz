@@ -1,32 +1,49 @@
-import { FC, useState } from "react";
-import CustomButton from "@/components/CustomButton";
+'use client';
+import { useState, useCallback } from 'react';
+import debounce from 'lodash.debounce';
+import CustomButton from '@/components/CustomButton';
 
-interface SearchBarProps {
-    onSearch: (query: string) => void;
-}
+export default function SearchBar({ onSearch }: { onSearch: (query: string) => void }) {
+    const [query, setQuery] = useState('');
+    const [isSearching, setIsSearching] = useState(false);
 
-const SearchBar: FC<SearchBarProps> = ({ onSearch }) => {
-    const [query, setQuery] = useState("");
+    const debouncedSearch = useCallback(
+        debounce((value: string) => {
+            setIsSearching(false);
+            onSearch(value);
+        }, 300),
+        [onSearch]
+    );
 
-    const handleSearch = () => {
-        onSearch(query);
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setIsSearching(true);
+        const value = e.target.value;
+        setQuery(value);
+        debouncedSearch(value);
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            setIsSearching(true);
+            onSearch(query);
+        }
     };
 
     return (
-        <div className="flex w-full max-w-md mb-4">
+        <div className="flex max-w-md">
             <input
                 type="text"
-                className="flex-grow border rounded-l-md p-2 focus:outline-none bg-white mr-2"
-                placeholder="Search comics..."
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
+                placeholder="Search comics..."
+                className="flex-1 p-2 border border-gray-300 rounded-l-md"
                 aria-label="Search comics"
+                disabled={isSearching}
             />
-            <CustomButton onClick={handleSearch} className="rounded-l-none">
-                Search
+            <CustomButton onClick={() => onSearch(query)} className="rounded-r-md" disabled={isSearching}>
+                {isSearching ? 'Searching...' : 'Search'}
             </CustomButton>
         </div>
     );
-};
-
-export default SearchBar;
+}
