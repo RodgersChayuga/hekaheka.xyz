@@ -6,9 +6,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import PhotoUpload from "../image-upload/Upload";
 
-type Props = {};
-
-function EditComic({ }: Props) {
+export default function Page() {
     const router = useRouter();
     const [story, setStory] = useState("");
     const [inputValue, setInputValue] = useState("");
@@ -186,5 +184,3 @@ function EditComic({ }: Props) {
         </div>
     );
 }
-
-export default EditComic;

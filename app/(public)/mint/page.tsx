@@ -11,8 +11,8 @@ interface ComicPage {
     text: string;
 }
 
-// Remove the unused Props interface and use a simple function component
-const MintPage = () => {
+// Use the correct Next.js page component format
+export default function Page() {
     const router = useRouter();
     const [comicPages, setComicPages] = useState<ComicPage[]>([]);
     const [isPurchased, setIsPurchased] = useState(false);
@@ -85,5 +85,3 @@ const MintPage = () => {
         </div>
     );
 }
-
-export default MintPage;

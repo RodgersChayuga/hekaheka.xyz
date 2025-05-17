@@ -7,9 +7,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useZustandStore } from "@/lib/store";
 
-type Props = {};
-
-function HowItWorks({ }: Props) {
+export default function Page() {
     const { wallet, setStory, setCharacters } = useZustandStore();
     const [story, setLocalStory] = useState('');
     const [characters, setLocalCharacters] = useState<string[]>(['']);
@@ -112,5 +110,3 @@ function HowItWorks({ }: Props) {
         </div>
     );
 }
-
-export default HowItWorks;
