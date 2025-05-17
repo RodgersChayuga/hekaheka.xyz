@@ -1,141 +1,45 @@
-"use client";
+'use client';
+import { useRouter } from 'next/navigation';
+import CustomButton from '@/components/CustomButton';
+import Image from 'next/image';
 
-import CustomButton from "@/components/CustomButton";
-import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-
-type Props = {};
-
-function HowItWorks({ }: Props) {
+export default function HowItWorks() {
   const router = useRouter();
-  const [story, setStory] = useState("");
-  const [inputValue, setInputValue] = useState("");
-  const [characters, setCharacters] = useState<string[]>([]);
-  const [isClient, setIsClient] = useState(false);
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const handleBack = () => {
-    router.push("/");
-  };
-
-  const handleNext = async () => {
-    if (!story.trim()) {
-      toast.error("Please enter your story.");
-      return;
-    }
-    if (characters.length === 0) {
-      toast.error("Please enter at least one character name.");
-      return;
-    }
-    if (characters.length > 4) {
-      toast.error("You can only enter up to 4 characters.");
-      return;
-    }
-
-    // Only store serializable data
-    localStorage.setItem("aiStory", story);
-    localStorage.setItem("characters", JSON.stringify(characters));
-
-    // Use URL query instead of complex state
-    // router.push(`/image-upload?${new URLSearchParams({
-    //   story: encodeURIComponent(story),
-    //   characters: encodeURIComponent(JSON.stringify(characters))
-    // })}`);
-
-    const params = new URLSearchParams({
-      story: encodeURIComponent(story),
-      characters: encodeURIComponent(JSON.stringify(characters))
-    });
-    router.push(`/image-upload?${params}`);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    setInputValue(raw);
-
-    const array = raw
-      .split(",")
-      .map((item: string) => item.trim())
-      .filter((item: string) => item.length > 0);
-    setCharacters(array);
-  };
-
-  const handleStoryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setStory(e.target.value);
-  };
-
-  if (!isClient) {
-    return null;
-  }
+  const steps = [
+    { title: 'Tell Your Story', description: 'Write a short story or memory and list up to 4 characters.' },
+    { title: 'Upload Images', description: 'Upload photos for each character to bring your story to life.' },
+    { title: 'Generate Comic', description: 'Our AI creates a comic book based on your story and images.' },
+    { title: 'Edit & Mint', description: 'Review and edit your comic, then mint it as an NFT on Base.' },
+    { title: 'Trade on Marketplace', description: 'List your comic for sale or buy others in our marketplace.' },
+  ];
 
   return (
-    <div className="flex gap-8 relative w-full min-h-screen">
-      {/* Description Section */}
-      <div className="relative flex-1 h-screen">
-        <div className="w-full h-full flex items-center justify-center">
-          <Image
-            src="/images/comic-page-2.png"
-            alt="Comic panel"
-            width={400}
-            height={300}
-            className="object-cover w-full animate-float"
-            style={{ animationDelay: "0s" }}
-          />
-        </div>
-      </div>
-
-      {/* Hero Section */}
-      <div className="text-center flex flex-col items-center justify-center flex-1 relative p-4">
-        <div className="text-5xl md:text-6xl font-extrabold leading-tight tracking-wide text-black mb-8">
-          <span className="relative inline-block">
-            <h3 className="relative z-10">TELL US ABOUT</h3>
-            <h3 className="relative z-10">YOUR MEMORIES &</h3>
-            <h3 className="relative z-10">MILESTONES</h3>
-          </span>
-        </div>
-
-        <textarea
-          placeholder="AI Story builder"
-          value={story}
-          onChange={handleStoryChange}
-          className="w-full min-h-40 p-2 px-8 mb-4 bg-white text-black rounded-none border-4 border-black"
-          aria-label="Story input"
-        />
-
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleChange}
-          placeholder="Enter characters' names separated by commas (up to 4)"
-          className="p-2 w-full bg-white text-black rounded-none mb-4 border-4 border-black"
-          aria-label="Character names input"
-        />
-
-        {characters.length > 0 && (
-          <div className="mb-4 w-full text-left">
-            <p className="font-bold">Characters ({characters.length}):</p>
-            <div className="flex flex-wrap gap-2">
-              {characters.map((character, index) => (
-                <span key={index} className="bg-black text-white px-3 py-1 rounded-full text-sm">
-                  {character}
-                </span>
-              ))}
+    <div className="flex flex-col items-center p-8 min-h-screen">
+      <h1 className="text-4xl font-bold mb-8">How HekaHeka Works</h1>
+      <div className="max-w-4xl w-full">
+        {steps.map((step, index) => (
+          <div key={index} className="flex items-center mb-6">
+            <div className="w-12 h-12 bg-yellow-500 text-white rounded-full flex items-center justify-center mr-4">
+              {index + 1}
+            </div>
+            <div>
+              <h2 className="text-2xl font-semibold">{step.title}</h2>
+              <p className="text-gray-600">{step.description}</p>
             </div>
           </div>
-        )}
-
-        <div className="flex justify-around gap-8">
-          <CustomButton onClick={handleBack}>BACK</CustomButton>
-          <CustomButton onClick={handleNext}>NEXT</CustomButton>
-        </div>
+        ))}
       </div>
+      <Image
+        src="/images/comic_cloud.png"
+        alt="Sample comic"
+        width={400}
+        height={300}
+        className="my-8"
+      />
+      <CustomButton onClick={() => router.push('/story-input')} className="bg-green-700 text-white hover:text-black">
+        Get Started
+      </CustomButton>
     </div>
   );
 }
-
-export default HowItWorks;

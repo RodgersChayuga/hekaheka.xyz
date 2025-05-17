@@ -46,45 +46,49 @@ const ImageUpload = () => {
         }));
     };
 
-    const handleCreateComic = async () => {
-        if (!characters.every(c => characterFiles[c]?.length > 0)) {
-            return toast.error("Please upload images for all characters");
-        }
+    // const handleCreateComic = async () => {
+    //     if (!characters.every(c => characterFiles[c]?.length > 0)) {
+    //         return toast.error("Please upload images for all characters");
+    //     }
 
-        setIsLoading(true);
-        try {
-            const formData = new FormData();
-            formData.append("story", story);
-            formData.append("characters", JSON.stringify(characters));
+    //     setIsLoading(true);
+    //     try {
+    //         const formData = new FormData();
+    //         formData.append("story", story);
+    //         formData.append("characters", JSON.stringify(characters));
 
-            // Add all image files
-            characters.forEach(character => {
-                const files = characterFiles[character] || [];
-                files.forEach((file, index) => {
-                    formData.append(`${character}-${index}`, file);
-                });
-            });
+    //         // Add all image files
+    //         characters.forEach(character => {
+    //             const files = characterFiles[character] || [];
+    //             files.forEach((file, index) => {
+    //                 formData.append(`${character}-${index}`, file);
+    //             });
+    //         });
 
-            const response = await fetch("/api/comics/generate", {
-                method: "POST",
-                body: formData,
-            });
+    //         const response = await fetch("/api/comics/generate", {
+    //             method: "POST",
+    //             body: formData,
+    //         });
 
-            if (!response.ok) {
-                const errorData = await response.json().catch(() => null);
-                throw new Error(errorData?.error || "Comic generation failed");
-            }
+    //         if (!response.ok) {
+    //             const errorData = await response.json().catch(() => null);
+    //             throw new Error(errorData?.error || "Comic generation failed");
+    //         }
 
-            const data = await response.json();
-            router.push(`/comic/${data.ipfsHash}`);
+    //         const data = await response.json();
+    //         router.push(`/comic/${data.ipfsHash}`);
 
-        } catch (error) {
-            console.error("Comic creation failed:", error);
-            toast.error(error instanceof Error ? error.message : "Unknown error");
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    //     } catch (error) {
+    //         console.error("Comic creation failed:", error);
+    //         toast.error(error instanceof Error ? error.message : "Unknown error");
+    //     } finally {
+    //         setIsLoading(false);
+    //     }
+    // };
+
+    const byPassHandleCreateComic = () => {
+        router.push("/mint")
+    }
 
     return (
         <div className="flex flex-col gap-8 p-4 max-w-4xl mx-auto">
@@ -124,7 +128,7 @@ const ImageUpload = () => {
                 </CustomButton>
 
                 <CustomButton
-                    onClick={handleCreateComic}
+                    onClick={byPassHandleCreateComic}
                     className={characters.length === 0 ? "bg-black text-white" : ""}
                     disabled={isLoading || characters.length === 0 || !characters.every(c => characterFiles[c]?.length > 0)}
                 >

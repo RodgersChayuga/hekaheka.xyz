@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 import { toast } from "sonner";
-import ComicNFT from "../../contracts/artifacts/contracts/ComicNFT.sol/ComicNFT.json";
+import ComicNFT from "@/contracts/artifacts/contracts/ComicNFT.sol/ComicNFT.json";
 
 // components/MintButton.tsx
 export const handleMint = async (ipfsHash: string) => {

@@ -328,4 +328,64 @@ export const backgroundConfigs: Record<string, BackgroundConfig> = {
             }
         },
     },
+
+    storyInput: {
+        starPositions: [
+            // Top-left quadrant
+            { top: "-5%", left: "8%" },
+            { top: "15%", left: "-3%" },
+            { top: "7%", left: "18%" },
+
+            // Top-right quadrant
+            { top: "12%", left: "85%" },
+            { top: "10%", left: "68%" },
+            { top: "-2%", left: "95%" },
+
+            // Top-center quadrant
+            { top: "12%", left: "50%" },
+            { top: "14%", left: "70%" },
+            { top: "-2%", left: "30%" },
+
+            // Bottom-left quadrant
+            { top: "75%", left: "5%" },
+            { top: "88%", left: "15%" },
+            { top: "92%", left: "-4%" },
+
+            // Bottom-right quadrant
+            { top: "82%", left: "95%" },
+            { top: "95%", left: "75%" },
+            { top: "70%", left: "92%" },
+
+            // Bottom-center quadrant
+            { top: "82%", left: "50%" },
+            { top: "95%", left: "70%" },
+            { top: "70%", left: "30%" },
+        ],
+        animationVariants: ["slow", "medium", "fast"],
+        clouds: {
+            one: {
+                position: { bottom: "20%", left: "-5%" },
+                size: { width: "20rem", height: "20rem" },
+                zIndex: 10
+            },
+            two: {
+                position: { top: "10%", right: "-5%" },
+                size: { width: "20rem", height: "20rem" }
+            }
+        },
+        suns: {
+            left: {
+                position: { top: "0", left: "0" },
+                size: { width: "14rem", height: "14rem" },
+                zIndex: 20,
+                image: "/images/comic_sun_left.png"
+            },
+            right: {
+                position: { bottom: "-30%", left: "15%" },
+                size: { width: "30rem", height: "30rem" },
+                zIndex: 20,
+                image: "/images/comic_sun.png"
+            }
+        }
+    }
 };

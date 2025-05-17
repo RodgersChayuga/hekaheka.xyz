@@ -1,6 +1,7 @@
 "use client"
 
 import { FC, useState } from "react";
+import Image from "next/image";
 
 interface ComicPage {
     image: string;
@@ -59,6 +60,19 @@ const ComicPreview: FC<ComicPreviewProps> = ({
         (index) => index < totalPages
     );
 
+    const getPageImage = (index: number) => {
+        switch (index) {
+            case 0:
+                return "/comics/1.jpeg";
+            case 1:
+                return "/comics/2.jpeg";
+            case 2:
+                return "/comics/3.jpeg";
+            default:
+                return pages[index]?.image || "/images/comic_placeholder.jpeg";
+        }
+    };
+
     return (
         <div className="w-full max-w-4xl relative">
             <div className="p-8 rounded-lg relative overflow-hidden">
@@ -88,10 +102,11 @@ const ComicPreview: FC<ComicPreviewProps> = ({
                                                 </div>
                                             </div>
                                         ) : (
-                                            <img
-                                                // src={pages[pageIndex]?.image || "/api/placeholder/300/400"}
-                                                src="/images/image-placeholder.jpg"
+                                            <Image
+                                                src={getPageImage(pageIndex)}
                                                 alt={`Comic page ${pageIndex + 1}`}
+                                                width={192}
+                                                height={256}
                                                 className="h-64 w-48 object-cover border-2 border-gray-700 rounded"
                                             />
                                         )}

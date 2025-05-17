@@ -56,7 +56,7 @@ export function ConnectAndSIWE() {
     return (
         <div>
             <CustomButton onClick={() => connect({ connector: cbWalletConnector })}>
-                {valid != undefined ? <p> Is valid: {valid.toString()} </p> : <p>Connect + SIWE</p>}
+                {valid != undefined ? <p> Connected</p> : <p>Connect</p>}
             </CustomButton>
         </div>
     );
