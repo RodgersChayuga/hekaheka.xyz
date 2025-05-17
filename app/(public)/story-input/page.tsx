@@ -10,7 +10,7 @@ import { useZustandStore } from "@/lib/store";
 export default function Page() {
     const { wallet, setStory, setCharacters } = useZustandStore();
     const [story, setLocalStory] = useState('');
-    const [characters, setLocalCharacters] = useState<string[]>(['']);
+    const [characters, setLocalCharacters] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
@@ -36,6 +36,10 @@ export default function Page() {
     };
 
     const handleSubmit = () => {
+        console.log('Characters array:', characters);
+        console.log('Characters length:', characters.length);
+        console.log('Characters validation:', characters.some(c => !c.trim()));
+
         if (!story.trim()) {
             toast.error('Story is required');
             return;
