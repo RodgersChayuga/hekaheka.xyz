@@ -1,5 +1,6 @@
 {
     "buildCommand": "pnpm run build",
     "installCommand": "pnpm install",
-    "framework": "nextjs"
+    "framework": "nextjs",
+    "ignoreCommand": "echo 'Skipping build'"
 }
