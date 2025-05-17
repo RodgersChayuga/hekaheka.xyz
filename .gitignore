@@ -62,9 +62,7 @@ yarn-error.log*
 ignition/deployments/chain-31337
 
 # Smart Contracts
-contracts/artifacts/*
 contracts/cache/
-contracts/typechain-types
 contracts/node_modules/
 contracts/.env
 contracts/dist/
