@@ -9,6 +9,11 @@ dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 const config: HardhatUserConfig = {
   solidity: '0.8.28',
   networks: {
+    base: {
+      url: process.env.NEXT_PUBLIC_BASE_MAINNET_RPC_URL || 'https://mainnet.base.org',
+      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+      chainId: 8453,
+    },
     baseSepolia: {
       url: process.env.NEXT_PUBLIC_BASE_RPC_URL || 'https://sepolia.base.org',
       accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],

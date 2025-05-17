@@ -40,5 +40,26 @@
       }
     ],
     "deployedAt": "2025-05-11T12:03:20.898Z"
+  },
+  {
+    "network": {
+      "name": "base",
+      "chainId": "8453"
+    },
+    "contracts": [
+      {
+        "name": "ComicNFT",
+        "address": "0xe7B3b09cd1928D03C0B0AFfc0B9ec6BA06f6106D",
+        "transactionHash": "0x47a6b8c66862ede52055b7eccca1834b21faae8cc6bf36977ceb2c3c29b88d3a",
+        "deployedAt": "2025-05-17T06:41:42.940Z"
+      },
+      {
+        "name": "ComicMarketplace",
+        "address": "0x42439663A675a6F2F24d7251FabdbC3020374697",
+        "transactionHash": "0xdd525c581d2cdd96259e295f04c4897cfdaf6aa94271b8594082fdf9b211ee8c",
+        "deployedAt": "2025-05-17T06:41:48.112Z"
+      }
+    ],
+    "deployedAt": "2025-05-17T06:41:37.577Z"
   }
 ]
