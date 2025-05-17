@@ -14,7 +14,9 @@
     "test:marketplace": "ts-node --project tsconfig.node.json tests/test-marketplace.ts",
     "test:api": "mocha --require ts-node/register tests/api/*.test.ts --exit",
     "check:balance": "ts-node --project tsconfig.node.json tests/check-balance.ts",
-    "test:ipfs": "ts-node --project tsconfig.node.json tests/test-ipfs.ts"
+    "test:ipfs": "ts-node --project tsconfig.node.json tests/test-ipfs.ts",
+    "prebuild": "hardhat compile",
+    "postbuild": "cp -r typechain-types ./app/typechain-types && cp -r artifacts ./app/contracts/artifacts"
   },
   "dependencies": {
     "@coinbase/agentkit": "^0.7.1",
