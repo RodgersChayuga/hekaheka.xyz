@@ -17,9 +17,9 @@ const Background = ({ children, config }: BackgroundProps) => {
     }, [config.starPositions]);
 
     return (
-        <div className="h-screen bg-comic-pattern animate-comic-fade relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="-z-10">
+        <div className="relative h-screen overflow-hidden">
+            {/* Fixed Background Elements */}
+            <div className="fixed inset-0 -z-10 bg-comic-pattern animate-comic-fade">
                 {/* Clouds */}
                 {config?.clouds?.one && (
                     <div
@@ -133,11 +133,11 @@ const Background = ({ children, config }: BackgroundProps) => {
                 )}
             </div>
 
-            {/* Main Content */}
-            <div className="min-h-screen relative z-30">
+            {/* Scrollable Content */}
+            <div className="relative z-30 h-screen flex flex-col">
                 <Header />
-                <main className="container mx-auto flex h-[calc(100vh-80px)] items-center justify-center">
-                    <div className="w-full pt-24">
+                <main className="flex-1 overflow-y-auto ">
+                    <div className="container mx-auto py-36 mt-8">
                         {children}
                     </div>
                 </main>

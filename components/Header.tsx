@@ -32,7 +32,7 @@ const Header = () => {
                     </div>
 
                     {/* Center Logo with Home Link */}
-                    <div className="absolute left-1/2 transform -translate-x-1/2">
+                    <div className="absolute left-1/2 transform -translate-x-3">
                         <Link href="/">
                             <div className="w-20 h-20 relative hover:cursor-pointer">
                                 <Image

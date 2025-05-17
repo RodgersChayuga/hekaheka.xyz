@@ -18,7 +18,7 @@ export default function MarketplaceLayout({
         <div
             className=""
         >
-            <Background config={backgroundConfigs.marketplace}>
+            <Background config={backgroundConfigs.editComic}>
                 {children}
             </Background>
         </div>

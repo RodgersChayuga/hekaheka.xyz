@@ -15,7 +15,7 @@ export default function HowItWorks() {
   ];
 
   return (
-    <div className="flex flex-col items-center p-8 min-h-screen">
+    <div className="flex flex-col items-center">
       <h1 className="text-4xl font-bold mb-8">How HekaHeka Works</h1>
       <div className="max-w-4xl w-full">
         {steps.map((step, index) => (
@@ -30,16 +30,19 @@ export default function HowItWorks() {
           </div>
         ))}
       </div>
-      <Image
+      {/* <Image
         src="/images/comic_cloud.png"
         alt="Sample comic"
         width={400}
         height={300}
         className="my-8"
-      />
+      /> */}
+      <div className="mt-24">
+
       <CustomButton onClick={() => router.push('/story-input')} className="bg-green-700 text-white hover:text-black">
         Get Started
       </CustomButton>
+      </div>
     </div>
   );
 }
