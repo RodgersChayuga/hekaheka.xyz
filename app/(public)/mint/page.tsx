@@ -11,7 +11,8 @@ interface ComicPage {
     text: string;
 }
 
-export default function MintPage() {
+// Remove the unused Props interface and use a simple function component
+const MintPage = () => {
     const router = useRouter();
     const [comicPages, setComicPages] = useState<ComicPage[]>([]);
     const [isPurchased, setIsPurchased] = useState(false);
@@ -84,3 +85,5 @@ export default function MintPage() {
         </div>
     );
 }
+
+export default MintPage;
