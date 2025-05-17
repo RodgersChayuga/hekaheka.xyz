@@ -1,24 +1,25 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import { ComicMetadata } from '@/types/comic';
 import { pinFileToIPFS, pinJSONToIPFS } from '@/lib/ipfs/pinata';
 import { IncomingForm } from 'formidable';
 import { createReadStream } from 'fs';
-import { v4 as uuidv4 } from 'uuid';
 
-export const config = {
-    api: { bodyParser: false }
-};
-
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+// Update to use the new App Router format
+export async function POST(request: NextRequest) {
     const form = new IncomingForm();
+    const formData = await request.formData();
 
     try {
-        const { fields, files } = await new Promise<any>((resolve, reject) => {
-            form.parse(req, (err, fields, files) => {
-                if (err) reject(err);
-                resolve({ fields, files });
-            });
-        });
+        const fields: Record<string, string[]> = {};
+        const files: Record<string, any[]> = {};
+
+        for (const [key, value] of formData.entries()) {
+            if (value instanceof File) {
+                files[key] = [value];
+            } else {
+                fields[key] = [value.toString()];
+            }
+        }
 
         // Validate Inputs
         const requiredFields = ['story', 'characters'];
@@ -75,7 +76,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Store Metadata
         const { IpfsHash } = await pinJSONToIPFS(metadata);
 
-        res.status(200).json({
+        return NextResponse.json({
             success: true,
             ipfsHash: IpfsHash,
             previewUrl: `/comic/${IpfsHash}`
@@ -83,10 +84,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     } catch (error) {
         console.error('Generation error:', error);
-        res.status(500).json({
-            success: false,
-            error: error instanceof Error ? error.message : 'Unknown error'
-        });
+        return NextResponse.json(
+            {
+                success: false,
+                error: error instanceof Error ? error.message : 'Unknown error'
+            },
+            { status: 500 }
+        );
     }
 }
 

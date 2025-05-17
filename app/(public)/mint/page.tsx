@@ -12,7 +12,7 @@ interface ComicPage {
 }
 
 // Use the correct Next.js page component format
-export default function Page() {
+export default function MintPage() {
     const router = useRouter();
     const [comicPages, setComicPages] = useState<ComicPage[]>([]);
     const [isPurchased, setIsPurchased] = useState(false);

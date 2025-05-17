@@ -1,7 +1,7 @@
 // app/(public)/success/page.tsx
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import CustomButton from '@/components/CustomButton';
@@ -9,7 +9,8 @@ import { useZustandStore } from '@/lib/store';
 import { ethers } from 'ethers';
 import ComicNFT from '@/contracts/artifacts/contracts/ComicNFT.sol/ComicNFT.json';
 
-export default function SuccessPage() {
+// Create a client component that uses useSearchParams
+function SuccessContent() {
     const searchParams = useSearchParams();
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
@@ -109,5 +110,14 @@ export default function SuccessPage() {
                 </CustomButton>
             </div>
         </div>
+    );
+}
+
+// Main page component with Suspense
+export default function SuccessPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SuccessContent />
+        </Suspense>
     );
 }

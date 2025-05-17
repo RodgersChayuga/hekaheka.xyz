@@ -14,11 +14,12 @@ export default function Page() {
     const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
-    if (!wallet) {
-        toast.error('Please connect your wallet first');
-        router.push('/');
-        return null;
-    }
+    useEffect(() => {
+        if (!wallet) {
+            toast.error('Please connect your wallet first');
+            router.push('/');
+        }
+    }, [wallet, router]);
 
     const handleAddCharacter = () => {
         if (characters.length < 4) {

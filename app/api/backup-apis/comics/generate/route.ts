@@ -1,4 +1,3 @@
-
 // app/api/comics/generate/route.ts
 
 import { NextResponse } from 'next/server';
@@ -24,12 +23,33 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Maximum 4 characters allowed' }, { status: 400 });
         }
 
-        // Generate comic using AgentKit (onchain)
-        const comic = await generateComicStory(story, images);
+        // Before the generateComicStory call, map the images array to just the URIs
+        const characterImages = images.map(img => img.ipfsURI);
+        const comic = await generateComicStory(story, characterImages);
+
+        // Create a complete ComicMetadata object
+        const comicMetadata: ComicMetadata = {
+            name: `Comic: ${story.substring(0, 40)}...`,
+            description: story,
+            image: characterImages[0],
+            created_at: new Date().toISOString(),
+            story: {
+                text: story,
+                summary: story.substring(0, 100),
+                genre: "comic"
+            },
+            characters: images.map(img => ({
+                name: img.characterName,
+                images: [img.ipfsURI],
+                traits: {}
+            })),
+            pages: comic,
+            generator: { version: "1.0", model: "stable-diffusion-xl" }
+        };
 
         return NextResponse.json({
             success: true,
-            comic: comic as ComicMetadata,
+            comic: comicMetadata
         });
     } catch (error: any) {
         console.error('Comic generation error:', error);

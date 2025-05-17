@@ -35,6 +35,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.76.1
         version: 5.76.1(react@19.1.0)
+      '@types/formidable':
+        specifier: ^3.4.5
+        version: 3.4.5
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -44,6 +47,9 @@ importers:
       ethers:
         specifier: ^6.14.0
         version: 6.14.0(bufferutil@4.0.9)(utf-8-validate@5.0.10)
+      formidable:
+        specifier: ^3.5.4
+        version: 3.5.4
       ipfs-http-client:
         specifier: ^60.0.1
         version: 60.0.1(encoding@0.1.13)
@@ -1864,6 +1870,9 @@ packages:
 
   '@types/form-data@0.0.33':
     resolution: {integrity: sha512-8BSvG1kGm83cyJITQMZSulnl6QV8jqAGreJsc5tPu1Jq0vTSOiY/k24Wx82JRpWwZSqrala6sd5rWi6aNXvqcw==}
+
+  '@types/formidable@3.4.5':
+    resolution: {integrity: sha512-s7YPsNVfnsng5L8sKnG/Gbb2tiwwJTY1conOkJzTMRvJAlLFW1nEua+ADsJQu8N1c0oTHx9+d5nqg10WuT9gHQ==}
 
   '@types/glob@7.2.0':
     resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
@@ -9067,6 +9076,10 @@ snapshots:
   '@types/estree@1.0.7': {}
 
   '@types/form-data@0.0.33':
+    dependencies:
+      '@types/node': 20.17.46
+
+  '@types/formidable@3.4.5':
     dependencies:
       '@types/node': 20.17.46
 
