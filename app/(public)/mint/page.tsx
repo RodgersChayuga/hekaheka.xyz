@@ -11,11 +11,7 @@ interface ComicPage {
     text: string;
 }
 
-interface Props {
-    comicPages: ComicPage[];
-}
-
-function MintPage({ }: Props) {
+export default function MintPage() {
     const router = useRouter();
     const [comicPages, setComicPages] = useState<ComicPage[]>([]);
     const [isPurchased, setIsPurchased] = useState(false);
@@ -88,5 +84,3 @@ function MintPage({ }: Props) {
         </div>
     );
 }
-
-export default MintPage;

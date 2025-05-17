@@ -1,7 +1,7 @@
 import { ComicMetadata } from '@/types/comic';
 import { pinFileToIPFS } from "../ipfs/pinata";
 
-export async function generateComicContent(
+export async function generateComicStory(
     prompt: string,
     characterImages: string[]
 ): Promise<ComicMetadata['pages']> {
